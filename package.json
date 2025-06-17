@@ -1,7 +1,7 @@
 {
   "name": "env-file-editor",
   "version": "0.0.1",
-  "description": "enveditor helps you update your .env files",
+  "description": "env-file-editor helps you update your .env files",
   "homepage": "https://github.com/oscarchilds/enveditor#readme",
   "bugs": {
     "url": "https://github.com/oscarchilds/enveditor/issues"
