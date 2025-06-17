@@ -1,5 +1,5 @@
 {
-  "name": "enveditor",
+  "name": "env-file-editor",
   "version": "0.0.1",
   "description": "enveditor helps you update your .env files",
   "homepage": "https://github.com/oscarchilds/enveditor#readme",
