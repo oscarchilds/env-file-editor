@@ -26,10 +26,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsup --watch",
-    "build": "tsup"
+    "build": "tsup",
+    "lint": "oxlint"
   },
   "devDependencies": {
     "@types/node": "^24.0.13",
+    "oxlint": "^1.6.0",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
   }
