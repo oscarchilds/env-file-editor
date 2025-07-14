@@ -1,5 +1,3 @@
-import { EnvEditor } from "./env-editor";
+import { EnvEditor } from "./env-editor"
 
-export {
-  EnvEditor
-}
+export { EnvEditor }

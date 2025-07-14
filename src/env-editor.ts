@@ -1,5 +1,5 @@
-import * as path from 'path'
-import { readFile, writeFile } from 'fs/promises'
+import * as path from "path"
+import { readFile, writeFile } from "fs/promises"
 
 type EnvValue = string | number | boolean
 type EnvRows = Record<string, EnvValue>
@@ -7,20 +7,21 @@ type EnvRows = Record<string, EnvValue>
 const parseEnvFile = (content: string): EnvRows => {
   const result: EnvRows = {}
 
-  const lines = content.split('\n')
+  const lines = content.split("\n")
 
   for (const line of lines) {
     const trimmedLine = line.trim()
 
-    if (!trimmedLine || trimmedLine.startsWith('#')) continue
+    if (!trimmedLine || trimmedLine.startsWith("#")) continue
 
-    const equalsIndex = trimmedLine.indexOf('=')
+    const equalsIndex = trimmedLine.indexOf("=")
     if (equalsIndex === -1) continue
 
     const key = trimmedLine.slice(0, equalsIndex).trim()
     let value = trimmedLine.slice(equalsIndex + 1).trim()
 
-    const surroundedByQoutes = stringSurroundedBy(value, '"') || stringSurroundedBy(value, "'")
+    const surroundedByQoutes =
+      stringSurroundedBy(value, '"') || stringSurroundedBy(value, "'")
     if (surroundedByQoutes) value = value.slice(1, -1)
 
     result[key] = value
@@ -39,11 +40,11 @@ const stringifyEnvVars = (env: EnvRows): string => {
       value = value.toString()
 
       const needsQuotes = /[\s#"'`\\]/.test(value)
-      const escaped = value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
+      const escaped = value.replace(/\\/g, "\\\\").replace(/"/g, '\\"')
 
       return `${key}=${needsQuotes ? `"${escaped}"` : value}`
     })
-    .join('\n')
+    .join("\n")
 }
 
 export class EnvEditor {
@@ -55,15 +56,15 @@ export class EnvEditor {
     this.lines = lines
   }
 
-  static async load(filePath = '.env'): Promise<EnvEditor> {
+  static async load(filePath = ".env"): Promise<EnvEditor> {
     const fullPath = path.resolve(process.cwd(), filePath)
 
-    let content = ''
+    let content = ""
 
     try {
-      content = await readFile(fullPath, 'utf-8')
+      content = await readFile(fullPath, "utf-8")
     } catch {
-      content = ''
+      content = ""
     }
 
     const lines = parseEnvFile(content)
@@ -94,6 +95,6 @@ export class EnvEditor {
   }
 
   async save(): Promise<void> {
-    await writeFile(this.filePath, this.preview(), 'utf-8')
+    await writeFile(this.filePath, this.preview(), "utf-8")
   }
 }
