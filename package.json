@@ -24,7 +24,8 @@
     "dist/"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
+    "test-run": "vitest run",
     "dev": "tsup --watch",
     "build": "tsup",
     "lint": "oxlint",
@@ -35,6 +36,7 @@
     "oxlint": "^1.6.0",
     "prettier": "^3.6.2",
     "tsup": "^8.5.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
   }
 }
