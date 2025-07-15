@@ -33,8 +33,6 @@ describe("EnvEditor", () => {
     })
 
     it("can use get to fetch values", async () => {
-      ;(readFile as any).mockResolvedValue(envContent)
-
       const editor = await EnvEditor.load()
 
       expect(editor.get("FOO")).toBe("bar")
@@ -92,29 +90,36 @@ describe("EnvEditor", () => {
     expect(editor.preview()).toBe("")
   })
 
-  // it("stringifies env vars with quotes and escapes", async () => {
-  //   ;(readFile as any).mockResolvedValue("")
-  //   const editor = await EnvEditor.load("test.env")
-  //   editor.set("SPACED", "hello world")
-  //   editor.set("HASH", "value#with#hash")
-  //   editor.set("QUOTE", 'value"with"quotes')
-  //   editor.set("BACKSLASH", "value\\with\\backslash")
-  //   const preview = editor.preview()
-  //   expect(preview).toContain('SPACED="hello world"')
-  //   expect(preview).toContain('HASH="value#with#hash"')
-  //   expect(preview).toContain('QUOTE="value\\"with\\"quotes"')
-  //   expect(preview).toContain('BACKSLASH="value\\\\with\\\\backslash"')
-  // })
+  it("stringifies env vars with quotes and escapes", async () => {
+    ;(readFile as any).mockResolvedValue("")
 
-  // it("saves env file", async () => {
-  //   ;(readFile as any).mockResolvedValue("")
-  //   const editor = await EnvEditor.load("test.env")
-  //   editor.set("FOO", "bar")
-  //   await editor.save()
-  //   expect(writeFile).toHaveBeenCalledWith(
-  //     path.resolve(process.cwd(), "test.env"),
-  //     expect.stringContaining("FOO=bar"),
-  //     "utf-8",
-  //   )
-  // })
+    const editor = await EnvEditor.load()
+
+    editor.set("SPACED", "hello world")
+    editor.set("HASH", "value#with#hash")
+    editor.set("QUOTE", 'value"with"quotes')
+    editor.set("BACKSLASH", "value\\with\\backslash")
+
+    const preview = editor.preview()
+
+    expect(preview).toContain('SPACED="hello world"')
+    expect(preview).toContain('HASH="value#with#hash"')
+    expect(preview).toContain('QUOTE="value\\"with\\"quotes"')
+    expect(preview).toContain('BACKSLASH="value\\\\with\\\\backslash"')
+  })
+
+  it("saves env file", async () => {
+    ;(readFile as any).mockResolvedValue("")
+
+    const editor = await EnvEditor.load()
+
+    editor.set("FOO", "bar")
+    await editor.save()
+
+    expect(writeFile).toHaveBeenCalledWith(
+      path.resolve(process.cwd(), ".env"),
+      expect.stringContaining("FOO=bar"),
+      "utf-8",
+    )
+  })
 })
