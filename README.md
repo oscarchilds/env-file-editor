@@ -1,5 +1,7 @@
 # env-file-editor
 
+[![NPM Version](https://img.shields.io/npm/v/env-file-editor)](https://www.npmjs.com/package/env-file-editor)
+
 env-file-editor provides a simple way of interacting with local `.env` files.
 
 # Installation
@@ -21,3 +23,5 @@ await env.save()
 # Documentation
 
 ### EnvEditor.load(filePath)
+
+TODO
