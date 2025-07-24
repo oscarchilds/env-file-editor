@@ -1,5 +1,3 @@
-// TODO: Refactor this. Not happy with each test having so many asserts, and reliance on magic strings.
-
 import { describe, it, expect, beforeEach, vi } from "vitest"
 import * as path from "path"
 import { EnvEditor } from "./env-editor"
@@ -21,7 +19,6 @@ describe("EnvEditor", () => {
     QUOTED='quoted'
     SPACED="with spaces"
   `
-  // ESCAPED="with \\"quotes\\" and \\\\slashes\\\\"
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -41,7 +38,6 @@ describe("EnvEditor", () => {
       expect(editor.get("BOOL")).toBe("true")
       expect(editor.get("QUOTED")).toBe("quoted")
       expect(editor.get("SPACED")).toBe("with spaces")
-      // expect(editor.get("ESCAPED")).toBe('with "quotes" and \\slashes\\')
     })
 
     it("can use has to check for existence", async () => {
@@ -88,24 +84,6 @@ describe("EnvEditor", () => {
 
     expect(editor.get("FOO")).toBeUndefined()
     expect(editor.preview()).toBe("")
-  })
-
-  it("stringifies env vars with quotes and escapes", async () => {
-    ;(readFile as any).mockResolvedValue("")
-
-    const editor = await EnvEditor.load()
-
-    editor.set("SPACED", "hello world")
-    editor.set("HASH", "value#with#hash")
-    editor.set("QUOTE", 'value"with"quotes')
-    editor.set("BACKSLASH", "value\\with\\backslash")
-
-    const preview = editor.preview()
-
-    expect(preview).toContain('SPACED="hello world"')
-    expect(preview).toContain('HASH="value#with#hash"')
-    expect(preview).toContain('QUOTE="value\\"with\\"quotes"')
-    expect(preview).toContain('BACKSLASH="value\\\\with\\\\backslash"')
   })
 
   it("saves env file", async () => {

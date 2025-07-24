@@ -1,8 +1,7 @@
 import * as path from "path"
 import { readFile, writeFile } from "fs/promises"
 
-type EnvValue = string | number | boolean
-type EnvRows = Record<string, EnvValue>
+type EnvRows = Record<string, string>
 
 const parseEnvFile = (content: string): EnvRows => {
   const result: EnvRows = {}
@@ -37,12 +36,9 @@ const stringSurroundedBy = (value: string, char: string): boolean => {
 const stringifyEnvVars = (env: EnvRows): string => {
   return Object.entries(env)
     .map(([key, value]) => {
-      value = value.toString()
+      if (value.includes(' ')) value = `"${value}"`
 
-      const needsQuotes = /[\s#"'`\\]/.test(value)
-      const escaped = value.replace(/\\/g, "\\\\").replace(/"/g, '\\"')
-
-      return `${key}=${needsQuotes ? `"${escaped}"` : value}`
+      return `${key}=${value}`
     })
     .join("\n")
 }
@@ -72,7 +68,7 @@ export class EnvEditor {
     return new EnvEditor(fullPath, lines)
   }
 
-  set(key: string, value: EnvValue) {
+  set(key: string, value: string | number | boolean) {
     this.lines[key] = value.toString()
     return this
   }
